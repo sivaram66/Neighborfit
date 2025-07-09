@@ -65,7 +65,7 @@ NeighborFit is a modern, user-friendly platform for discovering the perfect home
 | Frontend             | HTML, CSS, JavaScript     | User interface and interactivity          |
 | Image Storage        | Amazon S3                 | Secure, scalable property image storage   |
 | Authentication       | Django Auth + OTP Email   | Secure user login and registration        |
-| Deployment           | (e.g., Vercel, Heroku)    | Hosting web application                   |
+| Deployment           | Render                    | Hosting web application                   |
 
 ## Project Structure
 
