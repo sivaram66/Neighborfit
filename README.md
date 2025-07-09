@@ -99,9 +99,7 @@ neighborfit/
 │   │   └── validate_otp.html
 │   └── static/
 │
-├── media/                 # (if using local dev storage)
-│
-└── ...                    # Other Django apps/utilities
+├── media/                 
 ```
 
 ## Key Features
