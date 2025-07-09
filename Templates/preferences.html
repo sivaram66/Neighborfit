@@ -1,0 +1,405 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Find Your Match - NeighborFit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles/components.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles/preferences.css' %}" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <h2>NeighborFit</h2>
+        </div>
+        <div class="nav-menu" id="nav-menu">
+          <a href="{% url 'home' %}" class="nav-link">Home</a>
+          <a href="{% url 'about' %}" class="nav-link active">About</a>
+          <a href="{% url 'preferences' %}" class="nav-link">Preferences</a>
+          <a href="{% url 'contact' %}" class="nav-link">Contact</a>
+        </div>
+        <div class="nav-auth">
+          <a href="{% url 'login' %}" class="auth-btn">Sign In</a>
+        </div>
+        <div class="hamburger" id="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Quick Search Section -->
+    <section class="quick-search-section">
+      <div class="container">
+        <div class="search-header">
+          <h1 class="search-tagline">
+            Find a home you'll <span class="love">love</span>
+          </h1>
+          <p class="search-subtitle">
+            Discover your perfect living space with our smart matching system
+          </p>
+        </div>
+    
+        <div class="quick-search-bar">
+          <form method="get" action="{% url 'quicksearch' %}">
+            <div class="search-input-group">
+              <div class="search-dropdown-box">
+                <span class="search-icon">🏙</span>
+                <select id="quick-city" name="quick-city">
+                  <option value="">Select City</option>
+                  {% for city in cities %}
+                  <option value="{{ city.id }}">{{ city.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="search-dropdown-box">
+                <span class="search-icon">📍</span>
+                <select id="quick-area" name="quick-area">
+                  <option value="">Select Area</option>
+                </select>
+              </div>
+              <div class="search-dropdown-box property-type-box">
+                <span class="search-icon">🏠</span>
+                <div class="property-type-options">
+                  <label class="property-type-radio">
+                    <input type="radio" name="property-type" value="pg" checked />
+                    <span>PG/Hostel</span>
+                  </label>
+                  <label class="property-type-radio">
+                    <input type="radio" name="property-type" value="flat" />
+                    <span>Flat</span>
+                  </label>
+                </div>
+              </div>
+              <div class="search-dropdown-box">
+                <span class="search-icon">💰</span>
+                <select id="quick-budget" name="quick-budget">
+                  <option value="">Budget Range</option>
+                  <option value="10000-15000">₹10,000 - ₹15,000</option>
+                  <option value="15000-20000">₹15,000 - ₹20,000</option>
+                  <option value="20000-25000">₹20,000 - ₹25,000</option>
+                  <option value="25000-30000">₹25,000 - ₹30,000</option>
+                  <option value="30000-35000">₹30,000 - ₹35,000</option>
+                  <option value="35000-40000">₹35,000 - ₹40,000</option>
+                  <option value="40000-45000">₹40,000 - ₹45,000</option>
+                  <option value="45000-50000">₹45,000 - ₹50,000</option>
+                  <option value="50000+">₹50,000+</option>
+                </select>
+              </div>
+            </div>
+            <button class="quick-search-btn" id="quick-search-btn" type="submit">
+              <span>🔍</span>
+              <span>Search Now</span>
+            </button>
+          </form>
+        </div>
+    
+        <div class="search-divider">
+          <span>OR GET PERSONALIZED MATCHES</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Preferences Form -->
+    <form class="preferences-form" id="preferences-form" method="post" action="{% url 'preferences' %}">
+      <div class="container">
+        <div class="preferences-header">
+          <h2>Tell us your preferences</h2>
+          <p>Help us find your perfect match by sharing your preferences</p>
+          <div class="progress-container">
+          </div>
+        </div>
+
+        <div class="preferences-container">
+          <form class="preferences-form" id="preferences-form" method="post">
+            {% csrf_token %}
+            <div class="form-grid">
+              <!-- Left Column -->
+              <div class="form-column">
+                <!-- Property Type -->
+                <div class="form-section">
+                  <h3>🏠 Property Type</h3>
+                  <div class="housing-options">
+                    {% for value, label in house.HOUSE_TYPE_CHOICES %}
+                    <input
+                      type="radio"
+                      id="house_type_{{ forloop.counter }}"
+                      name="house_type"
+                      value="{{ value }}"
+                    />
+                    <label
+                      for="house_type_{{ forloop.counter }}"
+                      class="option-chip"
+                      >{{ label }}</label
+                    >
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <!-- Location -->
+                <div class="form-section">
+                  <h3>📍 Location</h3>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>City</label>
+                      <select id="form-city" name="city">
+                        <option value="">Choose a city</option>
+                        {% for city in cities %}
+                        <option value="{{ city.id }}">{{ city.name }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Area</label>
+                      <select id="form-area" name="area">
+                        <option value="">First select a city</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Budget -->
+                <div class="form-section">
+                  <h3>💰 Budget</h3>
+                  <div class="form-group">
+                    <label>Monthly Budget Range</label>
+                    <select id="budget-range" name="budget_range" required>
+                      <option value="">Select budget range</option>
+                      <option value="5000-15000">₹5,000 - ₹15,000</option>
+                      <option value="15000-25000">₹15,000 - ₹25,000</option>
+                      <option value="25000-40000">₹25,000 - ₹40,000</option>
+                      <option value="40000-60000">₹40,000 - ₹60,000</option>
+                      <option value="60000-80000">₹60,000 - ₹80,000</option>
+                      <option value="80000-100000">₹80,000 - ₹1,00,000</option>
+                      <option value="100000+">Above ₹1,00,000</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Pet Information -->
+                <div class="form-section">
+                  <!-- <div class="form-section"> -->
+                    <h3>🌟 Priorities</h3>
+                    <div class="form-group">
+                      <label for="social_life_priority">Social Life Priority</label>
+                      <select id="social_life_priority" name="social_life_priority" required>
+                        <option value="">Select priority</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="family_friendliness_priority">Family Friendliness Priority</label>
+                      <select id="family_friendliness_priority" name="family_friendliness_priority" required>
+                        <option value="">Select priority</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                      </select>
+                    </div>
+                  <!-- </div> -->
+                </div>
+              </div>
+
+              <!-- Right Column -->
+              <div class="form-column">
+                <!-- Property Specifications -->
+                <div class="form-section">
+                  <h3>🏡 Property Details</h3>
+                  <div class="form-group">
+                    <label>Parking</label>
+                    <select id="parking" name="parking">
+                      <option value="">Any</option>
+                      <option value="required">Required</option>
+                      <option value="not-required">Not Required</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Essential Amenities -->
+                <div class="form-section">
+                  <h3>✨ Essential Amenities</h3>
+                  <div class="amenities-grid">
+                    <input
+                      type="checkbox"
+                      id="walkability"
+                      name="amenities"
+                      value="walkability"
+                    />
+                    <label for="walkability" class="amenity-chip"
+                      >🚶 Walkability</label
+                    >
+
+                    <input
+                      type="checkbox"
+                      id="public-transport"
+                      name="amenities"
+                      value="public-transport"
+                    />
+                    <label for="public-transport" class="amenity-chip"
+                      >🚇 Public Transport</label
+                    >
+
+                    <input
+                      type="checkbox"
+                      id="restaurants"
+                      name="amenities"
+                      value="restaurants"
+                    />
+                    <label for="restaurants" class="amenity-chip"
+                      >🍽 Restaurants</label
+                    >
+
+                    <input
+                      type="checkbox"
+                      id="shopping"
+                      name="amenities"
+                      value="shopping"
+                    />
+                    <label for="shopping" class="amenity-chip"
+                      >🛍 Shopping</label
+                    >
+
+                    <input
+                      type="checkbox"
+                      id="schools"
+                      name="amenities"
+                      value="schools"
+                    />
+                    <label for="schools" class="amenity-chip">🏫 Schools</label>
+
+                    <input
+                      type="checkbox"
+                      id="healthcare"
+                      name="amenities"
+                      value="healthcare"
+                    />
+                    <label for="healthcare" class="amenity-chip"
+                      >🏥 Healthcare</label
+                    >
+
+                    <input
+                      type="checkbox"
+                      id="safety"
+                      name="amenities"
+                      value="safety"
+                    />
+                    <label for="safety" class="amenity-chip">🛡 Safety</label>
+
+                    <input
+                      type="checkbox"
+                      id="parking-amenity"
+                      name="amenities"
+                      value="parking"
+                    />
+                    <label for="parking-amenity" class="amenity-chip"
+                      >🚗 Parking</label
+                    >
+
+                    <input
+                      type="checkbox"
+                      id="pet-friendly"
+                      name="amenities"
+                      value="pet-friendly"
+                    />
+                    <label for="pet-friendly" class="amenity-chip"
+                      >🐕 Pet Friendly</label
+                    >
+
+                    <input
+                      type="checkbox"
+                      id="internet"
+                      name="amenities"
+                      value="internet"
+                    />
+                    <label for="internet" class="amenity-chip"
+                      >📶 Internet</label
+                    >
+
+                    <input
+                      type="checkbox"
+                      id="gym"
+                      name="amenities"
+                      value="gym"
+                    />
+                    <label for="gym" class="amenity-chip">💪 Gym</label>
+
+                    <input
+                      type="checkbox"
+                      id="swimming-pool"
+                      name="amenities"
+                      value="swimming-pool"
+                    />
+                    <label for="swimming-pool" class="amenity-chip"
+                      >🏊 Swimming Pool</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-submit">
+              <button class="find-matches-btn" type="submit">
+                <span class="btn-text">🎯 Find My Perfect Match</span>
+                <div class="btn-loader" style="display: none">
+                  <div class="spinner"></div>
+                  <span>Finding matches...</span>
+                </div>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+
+        </div>
+      </div>
+    </div>
+
+    <!-- <script src="{% static 'js/preferences.js' %}"></script> -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        function setupCityArea(cityId, areaId) {
+          const citySelect = document.getElementById(cityId);
+          const areaSelect = document.getElementById(areaId);
+
+          if (citySelect && areaSelect) {
+            citySelect.addEventListener("change", function () {
+              const cityVal = citySelect.value;
+              areaSelect.innerHTML = '<option value="">Select Area</option>';
+              if (cityVal) {
+                fetch(`/get-areas/?city_id=${cityVal}`)
+                  .then((response) => response.json())
+                  .then((data) => {
+                    data.areas.forEach((area) => {
+                      const option = document.createElement("option");
+                      option.value = area.id;
+                      option.textContent = area.name;
+                      areaSelect.appendChild(option);
+                    });
+                  });
+              }
+            });
+          }
+        }
+
+        // Setup for both dropdown pairs
+        setupCityArea("quick-city", "quick-area");
+        setupCityArea("form-city", "form-area");
+      });
+    </script>
+  </body>
+</html>

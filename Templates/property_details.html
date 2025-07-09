@@ -1,0 +1,957 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ house.title }} - Real Estate Listing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'styles/property_details.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles/components.css' %}" />
+    <style>
+        .image-gallery {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: #fff;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+          }
+          
+          .gallery-image {
+            width: 550px;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+          }
+          
+          .carousel-btn {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            color: #667eea;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          
+          .carousel-btn:hover {
+            background: #667eea;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(102,126,234,0.15);
+          }
+          
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .map-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .map-overlay {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            z-index: 10;
+        }
+        
+        .location-input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .location-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+        }
+        
+        .get-directions-btn {
+            padding: 12px 24px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .get-directions-btn:hover {
+            background: #dc2626;
+        }
+        
+        .your-location-marker {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .location-pin {
+            width: 16px;
+            height: 16px;
+            color: #ef4444;
+        }
+        
+        .neighborhood-tabs {
+            display: flex;
+            border-bottom: 2px solid #f3f4f6;
+            margin-bottom: 20px;
+        }
+        
+        .neighborhood-tab {
+            padding: 12px 24px;
+            border: none;
+            background: none;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .neighborhood-tab.active {
+            color: #059669;
+            border-bottom-color: #059669;
+        }
+        
+        .neighborhood-tab:hover {
+            color: #059669;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .places-section {
+            margin-bottom: 24px;
+        }
+        
+        .places-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+        
+        .places-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .places-icon {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .expand-icon {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s;
+        }
+        
+        .places-header.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+        
+        .places-list {
+            display: none;
+        }
+        
+        .places-list.expanded {
+            display: block;
+        }
+        
+        .place-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .place-item:hover {
+            background-color: #f9fafb;
+            margin: 0 -12px;
+            padding: 12px;
+            border-radius: 6px;
+        }
+        
+        .place-name {
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        .place-distance {
+            font-size: 14px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-50">
+    <!-- Header -->
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+          <div class="nav-logo">
+            <h2 class="logo-gradient">NeighborFit</h2>
+          </div>
+          <div class="nav-menu" id="nav-menu">
+            <a href="{% url 'home' %}" class="nav-link">Home</a>
+            <a href="{% url 'about' %}" class="nav-link">About</a>
+            <a href="{% url 'preferences' %}" class="nav-link">Preferences</a>
+            <a href="{% url 'contact' %}" class="nav-link active">Contact</a>
+          </div>
+          <div class="nav-auth">
+            <!-- <button class="auth-btn" id="auth-btn">Sign In / Sign Up</button> -->
+            <!-- <a href="{% url 'login' %}">Sign In</a>
+            <a href="{% url 'signup' %}">Sign Up</a> -->
+            <a href="{% url 'login' %}" class="auth-btn">Sign In</a>
+          </div>
+          <div class="hamburger" id="hamburger">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+        </div>
+      </nav>
+
+    <!-- Main Content -->
+    <main class="pt-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 py-4">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Breadcrumbs -->
+                <nav class="breadcrumb-nav">
+                    <span>
+                        <a href="{% url 'home' %}">Home</a> > 
+                        <a href="{% url 'results' %}">Properties</a> > 
+                        <a href="{% url 'results' %}?city={{ house.city.name }}">{{ house.city.name }}</a> > 
+                        {{ house.title }}
+                    </span>
+                </nav>
+                
+                <!-- Property Title and Address -->
+                <div class="property-header">
+                    <h1 class="property-title">{{ house.title }}</h1>
+                    <div class="flex items-center space-x-2 mt-2">
+                        <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                        </svg>
+                        <p class="property-address">{{ house.address}}, {{ house.city.name }}</p>
+                    </div>
+                </div>
+                
+                <!-- Enhanced Image Gallery -->
+                <div class="gallery-container">
+                    <div class="image-gallery">
+                        {% if house.images.all %}
+                            <button class="carousel-btn" id="prev-btn">&#8592;</button>
+                            <img id="carousel-image"
+                                src="{{ house.images.first.image_url }}"
+                                alt="{{ house.title }} image"
+                                class="gallery-image">
+                            <button class="carousel-btn" id="next-btn">&#8594;</button>
+                            <div id="carousel-images" style="display:none;">
+                                {% for img in house.images.all %}
+                                    <span data-url="{{ img.image_url }}"></span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <img src="{% static 'images/placeholder.jpg' %}" alt="No Image" class="gallery-image">
+                        {% endif %}
+                    </div>
+                                        
+                    <!-- Enhanced Gallery Controls (leave these as they are) -->
+                    <div class="gallery-controls">
+                        <div class="control-buttons">
+                            <button class="control-btn active" id="photos-btn">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                Photos ({{ house.images.count }})
+                            </button>
+                            <button class="control-btn location-btn" data-map-link="{{ house.google_map_link|default_if_none:'' }}">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                Location
+                            </button>
+                        </div>
+                        <button class="shortlist-btn" id="shortlist-btn" data-property-id="{{ house.id }}">
+                            <svg class="w-5 h-5 heart-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                            <span class="shortlist-text">Shortlist</span>
+                        </button>
+                    </div>
+                </div>
+                
+
+                <!-- Enhanced Key Details -->
+                <div class="details-card">
+                    <h2 class="section-title">Room Amenities</h2>
+                    <div class="details-grid">
+                        {% if house.geaser %}
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                                    <rect x="9" y="7" width="6" height="10" rx="2" stroke-width="2"/>
+                                    <circle cx="12" cy="15" r="1" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <div class="detail-label">Geaser</div>
+                        </div>
+                        {% endif %}
+                        {% if house.tv %}
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <rect x="3" y="7" width="18" height="10" rx="2" stroke-width="2"/>
+                                    <path d="M8 21h8" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div class="detail-label">TV</div>
+                        </div>
+                        {% endif %}
+                        {% if house.cupboard %}
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <rect x="6" y="4" width="12" height="16" rx="2" stroke-width="2"/>
+                                    <line x1="12" y1="4" x2="12" y2="20" stroke-width="2"/>
+                                    <circle cx="9" cy="12" r="1" fill="currentColor"/>
+                                    <circle cx="15" cy="12" r="1" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <div class="detail-label">Cupboard</div>
+                        </div>
+                        {% endif %}
+                        {% if house.bedding %}
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <rect x="3" y="10" width="18" height="7" rx="2" stroke-width="2"/>
+                                    <path d="M3 10V7a2 2 0 012-2h14a2 2 0 012 2v3" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div class="detail-label">Bedding</div>
+                        </div>
+                        {% endif %}
+                        {% if house.attached_bathroom %}
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <rect x="7" y="10" width="10" height="7" rx="2" stroke-width="2"/>
+                                    <path d="M12 10V7a3 3 0 00-6 0v3" stroke-width="2"/>
+                                </svg>
+                            </div>
+                            <div class="detail-label">Attached Bathroom</div>
+                        </div>
+                        {% endif %}
+                        {% if not house.geaser and not house.tv and not house.cupboard and not house.bedding and not house.attached_bathroom %}
+                        <div class="detail-item">
+                            <div class="detail-label">No special amenities listed</div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Enhanced Description -->
+                <div class="details-card">
+                    <h2 class="section-title">Description</h2>
+                    <div class="description-content">
+                        <p class="description-text">
+                            {% if house.description %}
+                                {{ house.description|truncatewords:50 }}
+                            {% else %}
+                                Beautiful {{ house.bhk }} BHK {{ house.house_type }} located in {{ house.area.name }}, {{ house.city.name }}. 
+                                This property offers excellent connectivity and modern amenities for comfortable living.
+                            {% endif %}
+                        </p>
+                        {% if house.description|length > 200 %}
+                        <button class="read-more-btn" id="read-more-btn">Read More</button>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Enhanced Amenities -->
+                <div class="details-card">
+                    <h2 class="section-title">Common Amenities</h2>
+                    <div class="amenities-grid" id="amenities-grid">
+                        {% if house.common_amenities %}
+                            {% for amenity in house.common_amenities %}
+                                <div class="amenity-item">
+                                    <div class="amenity-icon">
+                                        {% if amenity == "room_cleaning" %}🧹{% endif %}
+                                        {% if amenity == "cooking" %}👩‍🍳{% endif %}
+                                        {% if amenity == "lift" %}🛗{% endif %}
+                                        {% if amenity == "warden" %}👮{% endif %}
+                                        {% if amenity == "laundry" %}🧺{% endif %}
+                                        {% if amenity == "mess" %}🍽️{% endif %}
+                                        {% if amenity == "refrigerator" %}🧊{% endif %}
+                                        {% if amenity == "wifi" %}📶{% endif %}
+                                        {% if amenity == "power_backup" %}🔋{% endif %}
+                                        {% if amenity == "common_tv" %}📺{% endif %}
+                                    </div>
+                                    <span class="amenity-name">
+                                        {% if amenity == "room_cleaning" %}Room Cleaning{% endif %}
+                                        {% if amenity == "cooking" %}Cooking{% endif %}
+                                        {% if amenity == "lift" %}Lift{% endif %}
+                                        {% if amenity == "warden" %}Warden{% endif %}
+                                        {% if amenity == "laundry" %}Laundry{% endif %}
+                                        {% if amenity == "mess" %}Mess{% endif %}
+                                        {% if amenity == "refrigerator" %}Refrigerator{% endif %}
+                                        {% if amenity == "wifi" %}Wifi{% endif %}
+                                        {% if amenity == "power_backup" %}Power Backup{% endif %}
+                                        {% if amenity == "common_tv" %}Common TV{% endif %}
+                                    </span>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="amenity-item">No common amenities listed.</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Enhanced Neighbourhood Section -->
+                <div class="details-card">
+                    <h2 class="section-title">Neighbourhood</h2>
+                    
+                
+                    
+                    <!-- Enhanced Tabs -->
+                    <div class="neighborhood-tabs">
+                        <button class="neighborhood-tab active" data-tab="transit">Transit</button>
+                        <button class="neighborhood-tab" data-tab="essentials">Essentials</button>
+                        <button class="neighborhood-tab" data-tab="utility">Utility</button>
+                    </div>
+                    
+                    <!-- Tab Content -->
+                    <div class="tab-content active" id="tab-transit">
+                        <!-- Bus Stations -->
+                        <div class="places-section">
+                            <div class="places-header" onclick="toggleSection('bus-stations')">
+                                <div class="places-title">
+                                    <svg class="places-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                                    </svg>
+                                    Bus Stations
+                                </div>
+                                <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div class="places-list expanded" id="bus-stations">
+                                {% for place in nearby_places %}
+                                    {% if place.place_type == "bus_station" %}
+                                    <div class="place-item" onclick="getDirectionsToPlace('{{ place.name }}', '{{ house.google_map_link }}')">
+                                        <div class="place-name">{{ place.name }}</div>
+                                        <div class="place-distance">{{ place.distance|default:"3.2" }} km | {{ place.travel_time|default:"9" }} mins</div>
+                                    </div>
+                                    {% endif %}
+                                {% empty %}
+                                    <div class="place-item" onclick="getDirectionsToPlace('Ranganahalli Bus Stop', '{{ house.google_map_link }}')">
+                                        <div class="place-name">Ranganahalli</div>
+                                        <div class="place-distance">3.2 km | 9 mins</div>
+                                    </div>
+                                    <div class="place-item" onclick="getDirectionsToPlace('Sathya Sai Hospital Bus Stop', '{{ house.google_map_link }}')">
+                                        <div class="place-name">Sathya Sai Hospital</div>
+                                        <div class="place-distance">3.5 km | 10 mins</div>
+                                    </div>
+                                    <div class="place-item" onclick="getDirectionsToPlace('Valepura Bus Stop', '{{ house.google_map_link }}')">
+                                        <div class="place-name">Valepura</div>
+                                        <div class="place-distance">4.4 km | 15 mins</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Train Stations -->
+                        <div class="places-section">
+                            <div class="places-header" onclick="toggleSection('train-stations')">
+                                <div class="places-title">
+                                    <svg class="places-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                                    </svg>
+                                    Train Stations
+                                </div>
+                                <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div class="places-list" id="train-stations">
+                                {% for place in nearby_places %}
+                                    {% if place.place_type == "train_station" %}
+                                    <div class="place-item" onclick="getDirectionsToPlace('{{ place.name }}', '{{ house.google_map_link }}')">
+                                        <div class="place-name">{{ place.name }}</div>
+                                        <div class="place-distance">{{ place.distance|default:"5.2" }} km | {{ place.travel_time|default:"15" }} mins</div>
+                                    </div>
+                                    {% endif %}
+                                {% empty %}
+                                    <div class="place-item" onclick="getDirectionsToPlace('Whitefield Railway Station', '{{ house.google_map_link }}')">
+                                        <div class="place-name">Whitefield Railway Station</div>
+                                        <div class="place-distance">5.2 km | 15 mins</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Metro Stations -->
+                        <div class="places-section">
+                            <div class="places-header" onclick="toggleSection('metro-stations')">
+                                <div class="places-title">
+                                    <svg class="places-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                    </svg>
+                                    Metro Stations
+                                </div>
+                                <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div class="places-list" id="metro-stations">
+                                {% for place in nearby_places %}
+                                    {% if place.place_type == "metro_station" %}
+                                    <div class="place-item" onclick="getDirectionsToPlace('{{ place.name }}', '{{ house.google_map_link }}')">
+                                        <div class="place-name">{{ place.name }}</div>
+                                        <div class="place-distance">{{ place.distance|default:"8.1" }} km | {{ place.travel_time|default:"20" }} mins</div>
+                                    </div>
+                                    {% endif %}
+                                {% empty %}
+                                    <div class="place-item" onclick="getDirectionsToPlace('Whitefield Metro Station', '{{ house.google_map_link }}')">
+                                        <div class="place-name">Whitefield Metro Station</div>
+                                        <div class="place-distance">8.1 km | 20 mins</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Essentials Tab -->
+                    <div class="tab-content" id="tab-essentials">
+                        <!-- Hospitals -->
+                        <div class="places-section">
+                            <div class="places-header" onclick="toggleSection('hospitals')">
+                                <div class="places-title">
+                                    <svg class="places-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                    </svg>
+                                    Hospitals
+                                </div>
+                                <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div class="places-list expanded" id="hospitals">
+                                {% for place in nearby_places %}
+                                    {% if place.place_type == "hospital" %}
+                                    <div class="place-item" onclick="getDirectionsToPlace('{{ place.name }}', '{{ house.google_map_link }}')">
+                                        <div class="place-name">{{ place.name }}</div>
+                                        <div class="place-distance">{{ place.distance|default:"1.7" }} km | {{ place.travel_time|default:"5" }} mins</div>
+                                    </div>
+                                    {% endif %}
+                                {% empty %}
+                                    <div class="place-item" onclick="getDirectionsToPlace('Dr.R.Munisingh Hospital', '{{ house.google_map_link }}')">
+                                        <div class="place-name">Dr.R.Munisingh Hospital</div>
+                                        <div class="place-distance">1.7 km | 5 mins</div>
+                                    </div>
+                                    <div class="place-item" onclick="getDirectionsToPlace('Dentalign Orthodontics Implant & Dental Clinic', '{{ house.google_map_link }}')">
+                                        <div class="place-name">Dentalign Orthodontics Implant & Dental Cli...</div>
+                                        <div class="place-distance">2.9 km | 9 mins</div>
+                                    </div>
+                                    <div class="place-item" onclick="getDirectionsToPlace('Kerala Ayurveda Clinic', '{{ house.google_map_link }}')">
+                                        <div class="place-name">Kerala Ayurveda Clinic</div>
+                                        <div class="place-distance">0.6 km | 2 mins</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Schools -->
+                        <div class="places-section">
+                            <div class="places-header" onclick="toggleSection('schools')">
+                                <div class="places-title">
+                                    <svg class="places-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                                    </svg>
+                                    Schools
+                                </div>
+                                <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div class="places-list" id="schools">
+                                {% for place in nearby_places %}
+                                    {% if place.place_type == "school" %}
+                                    <div class="place-item" onclick="getDirectionsToPlace('{{ place.name }}', '{{ house.google_map_link }}')">
+                                        <div class="place-name">{{ place.name }}</div>
+                                        <div class="place-distance">{{ place.distance|default:"2.1" }} km | {{ place.travel_time|default:"7" }} mins</div>
+                                    </div>
+                                    {% endif %}
+                                {% empty %}
+                                    <div class="place-item" onclick="getDirectionsToPlace('Whitefield Global School', '{{ house.google_map_link }}')">
+                                        <div class="place-name">Whitefield Global School</div>
+                                        <div class="place-distance">2.1 km | 7 mins</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Utility Tab -->
+                    <div class="tab-content" id="tab-utility">
+                        <!-- Shopping Malls -->
+                        <div class="places-section">
+                            <div class="places-header" onclick="toggleSection('shopping-malls')">
+                                <div class="places-title">
+                                    <svg class="places-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M8 11v6h8v-6M8 11h8"></path>
+                                    </svg>
+                                    Shopping Malls
+                                </div>
+                                <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                            <div class="places-list expanded" id="shopping-malls">
+                                {% for place in nearby_places %}
+                                    {% if place.place_type == "shopping_mall" %}
+                                    <div class="place-item" onclick="getDirectionsToPlace('{{ place.name }}', '{{ house.google_map_link }}')">
+                                        <div class="place-name">{{ place.name }}</div>
+                                        <div class="place-distance">{{ place.distance|default:"3.5" }} km | {{ place.travel_time|default:"12" }} mins</div>
+                                    </div>
+                                    {% endif %}
+                                {% empty %}
+                                    <div class="place-item" onclick="getDirectionsToPlace('Park Square Mall', '{{ house.google_map_link }}')">
+                                        <div class="place-name">Park Square Mall</div>
+                                        <div class="place-distance">3.5 km | 12 mins</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="space-y-6">
+                <!-- Enhanced Price Details Card -->
+                <div class="price-card">
+                    <div class="price-header">
+                        <div class="price-main">
+                            <span class="price-currency">₹</span>
+                            <span class="price-amount">{{ house.price|intcomma }}</span>
+                            <span class="price-period">/month</span>
+                        </div>
+                        <div class="price-badge">Best Deal</div>
+                    </div>
+                    <div class="price-details">
+                        <div class="price-row">
+                            <span class="price-label">Area</span>
+                            <span class="price-value">{% if house.area %}{{ house.area }}{% else %}N/A{% endif %}</span>
+                        </div>
+                        <div class="price-row">
+                            <span class="price-label">Security Deposit</span>
+                            <span class="price-value">₹{% widthratio house.security_deposit 1 2 %}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Enhanced Booking Card -->
+                <div class="booking-card">
+                    <h3 class="booking-title">Property Details</h3>
+                    <div class="booking-grid">
+                        <div class="booking-item">
+                            <div class="booking-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2V7"></path>
+                                </svg>
+                            </div>
+                            <div class="booking-content">
+                                {% if house.house_type == "flat" %}
+                                    <div class="detail-label">Bedrooms</div>
+                                    <div class="detail-value">{% if house.bedrooms %}{{ house.bedrooms }} BHK{% else %}N/A{% endif %}</div>
+                                {% else %}
+                                    <div class="detail-label">Persons per room</div>
+                                    <div class="detail-value">{% if house.bedrooms %}{{ house.bedrooms }}{% else %}N/A{% endif %}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                             <div class="booking-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                            </div>
+                            <div class="booking-content">
+                                <div class="booking-label">Preferred Tenant</div>
+                                <div class="booking-value">{{ house.suitable_for|join:", "|title }}</div>
+                            </div>
+                        </div>
+                         <div class="booking-item">
+                            <div class="booking-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                            </div>
+                            <div class="booking-content">
+                                <div class="booking-label">Parking</div>
+                                <div class="booking-value">
+                                    {% if house.parking %}
+                                        {{ house.parking|join:", "|title }}
+                                    {% else %}
+                                        Not Available
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                                </svg>
+                            </div>
+                            <div class="booking-content">
+                                <div class="booking-label">Property Type</div>
+                                <div class="booking-value">{{ house.house_type|title }}</div>
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                                </svg>
+                            </div>
+                            <div class="booking-content">
+                                <div class="booking-label">Food</div>
+                                        <div class="booking-value">
+                                            {% if house.house_type == "pg" and house.food %}
+                                                All meals
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </div>
+                            </div>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-icon">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H15M9 10v4a2 2 0 002 2h2a2 2 0 002-2v-4M9 10V9a2 2 0 012-2h2a2 2 0 012 2v1"></path>
+                                </svg>
+                            </div>
+                            <div class="booking-content">
+                                <div class="booking-label">Pet Friendly</div>
+                                <div class="booking-value">{% if house.pet_friendly %}Yes{% else %}No{% endif %}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="contact-btn">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                            </svg>
+                            Contact Owner
+                        </button>
+                        <button class="schedule-btn">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                            </svg>
+                            Schedule Visit
+                        </button>
+                    </div>
+                </div>
+                
+
+
+                <!-- Enhanced Similar Properties Card -->
+                {% if similar_properties %}
+                <div class="similar-card">
+                    <h3 class="similar-title">Similar Properties</h3>
+                    <div class="similar-properties" id="similar-properties">
+                        {% for similar in similar_properties %}
+                          <div class="similar-item">
+                            <div class="similar-image-gallery">
+                              {% if similar.images.all %}
+                                {% for img in similar.images.all %}
+                                  <img src="{{ img.image_url }}" alt="{{ similar.title }}" class="similar-img">
+                                {% endfor %}
+                              {% else %}
+                                <img src="{% static 'images/placeholder.jpg' %}" alt="No Image" class="similar-img">
+                              {% endif %}
+                              <div class="similar-badge">Similar</div>
+                            </div>
+                            <div class="similar-content">
+                              <h4 class="similar-name">{{ similar.title|truncatechars:30 }}</h4>
+                              <div class="similar-details">
+                                <span class="similar-rent">₹{{ similar.price|intcomma }}</span>
+                                <span class="similar-area">{{ similar.area.name }}</span>
+                              </div>
+                              <div class="similar-rating">
+                                <span class="rating-stars">★★★★☆</span>
+                                <span class="rating-text">4.2</span>
+                              </div>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      </div>
+                    <button class="see-more-btn">
+                        <span>See More Properties</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Tab functionality
+        document.addEventListener("DOMContentLoaded", function() {
+            const tabButtons = document.querySelectorAll('.neighborhood-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active from all buttons and contents
+                    tabButtons.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active to clicked button and corresponding content
+                    btn.classList.add('active');
+                    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+                });
+            });
+        });
+
+        // Toggle section functionality
+        function toggleSection(sectionId) {
+            const header = event.currentTarget;
+            const list = document.getElementById(sectionId);
+            
+            header.classList.toggle('expanded');
+            list.classList.toggle('expanded');
+        }
+
+        // Get directions functionality
+        function getDirections() {
+            const destination = document.getElementById('direction-input').value;
+            const propertyLocation = "{{ house.address }}, {{ house.city.name }}";
+            
+            if (destination) {
+                const directionsUrl = `https://www.google.com/maps/dir/${encodeURIComponent(propertyLocation)}/${encodeURIComponent(destination)}`;
+                window.open(directionsUrl, '_blank');
+            } else {
+                alert('Please enter a destination');
+            }
+        }
+
+        // Get directions to specific place
+        function getDirectionsToPlace(placeName, propertyMapLink) {
+            const propertyLocation = "{{ house.address }}, {{ house.city.name }}";
+            const directionsUrl = `https://www.google.com/maps/dir/${encodeURIComponent(propertyLocation)}/${encodeURIComponent(placeName)}`;
+            window.open(directionsUrl, '_blank');
+        }
+
+        // Location button functionality
+        document.addEventListener('click', function(event) {
+            let btn = event.target.closest('.location-btn');
+            if (btn) {
+                const mapLink = btn.getAttribute('data-map-link');
+                if (mapLink) {
+                    window.open(mapLink, '_blank');
+                } else {
+                    alert('No map link available for this property.');
+                }
+            }
+        });
+
+        // Loading overlay
+        document.addEventListener("DOMContentLoaded", function() {
+            var overlay = document.getElementById("loading-overlay");
+            if (overlay) {
+                overlay.style.display = "none";
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = Array.from(document.querySelectorAll('#carousel-images span')).map(
+                span => span.getAttribute('data-url')
+            );
+            let currentIndex = 0;
+            const imgElement = document.getElementById('carousel-image');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+        
+            function updateImage() {
+                imgElement.src = images[currentIndex];
+            }
+        
+            if (prevBtn && nextBtn && images.length > 1) {
+                prevBtn.addEventListener('click', function() {
+                    currentIndex = (currentIndex - 1 + images.length) % images.length;
+                    updateImage();
+                });
+                nextBtn.addEventListener('click', function() {
+                    currentIndex = (currentIndex + 1) % images.length;
+                    updateImage();
+                });
+            }
+        });
+        </script>
+        
+</body>
+</html>

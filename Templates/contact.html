@@ -1,0 +1,227 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact - NeighborFit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles/components.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles/contact.css' %}" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">
+          <h2 class="logo-gradient">NeighborFit</h2>
+        </div>
+        <div class="nav-menu" id="nav-menu">
+          <a href="{% url 'home' %}" class="nav-link">Home</a>
+          <a href="{% url 'about' %}" class="nav-link">About</a>
+          <a href="{% url 'preferences' %}" class="nav-link">Preferences</a>
+          <a href="{% url 'contact' %}" class="nav-link active">Contact</a>
+        </div>
+        <div class="nav-auth">
+          <a href="{% url 'login' %}" class="auth-btn">Sign In</a>
+        </div>
+        <div class="hamburger" id="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Contact Hero Section -->
+    <section class="contact-hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="container">
+          <h1 class="hero-title">CONTACT US</h1>
+          <h2 class="hero-subtitle">Get in Touch with Us</h2>
+          <p class="hero-description">
+            Please fill out the form below to share your feedback or request
+            information about our services
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section">
+      <div class="container">
+        <div class="contact-layout">
+          <!-- Contact Form -->
+          <div class="form-container">
+            <form
+              class="enhanced-contact-form"
+              id="contact-form"
+              method="post"
+              action="{% url 'contact' %}"
+            >
+              {% csrf_token %}
+              <div class="form-header">
+                <h3>Contact Information</h3>
+                <p>Tell us about yourself and your neighborhood preferences</p>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="first-name">First Name *</label>
+                  <input
+                    type="text"
+                    id="first-name"
+                    name="firstName"
+                    required
+                    placeholder="Enter your first name"
+                  />
+                  <div class="input-focus-border"></div>
+                </div>
+                <div class="form-group">
+                  <label for="last-name">Last Name *</label>
+                  <input
+                    type="text"
+                    id="last-name"
+                    name="lastName"
+                    required
+                    placeholder="Enter your last name"
+                  />
+                  <div class="input-focus-border"></div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="email">Email Address *</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    placeholder="your.email@example.com"
+                  />
+                  <div class="input-focus-border"></div>
+                </div>
+                <div class="form-group">
+                  <label for="phone">Phone Number</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="+1 (555) 123-4567"
+                  />
+                  <div class="input-focus-border"></div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="inquiry-type">Type of Inquiry *</label>
+                <select id="inquiry-type" name="inquiryType" required>
+                  <option value="">Select your inquiry type</option>
+                  <option value="demo">Schedule a Demo Call</option>
+                  <option value="consultation">Free Consultation</option>
+                  <option value="pricing">Pricing Information</option>
+                  <option value="support">Technical Support</option>
+                  <option value="partnership">Partnership Opportunities</option>
+                  <option value="feedback">Feedback & Suggestions</option>
+                  <option value="general">General Inquiry</option>
+                </select>
+                <div class="input-focus-border"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="neighborhood-preferences"
+                  >Neighborhood Preferences</label
+                >
+                <textarea
+                  id="neighborhood-preferences"
+                  name="neighborhoodPreferences"
+                  rows="3"
+                  placeholder="Tell us about your ideal neighborhood (schools, parks, commute time, budget range, etc.)"
+                ></textarea>
+                <div class="input-focus-border"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="message">Additional Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="4"
+                  placeholder="Any additional information you'd like to share..."
+                ></textarea>
+                <div class="input-focus-border"></div>
+              </div>
+
+              <button type="submit" class="submit-btn">
+                <span class="btn-text">Send Message</span>
+                <span class="btn-icon">→</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Contact Info Sidebar -->
+          <div class="contact-info-sidebar">
+            <div class="sidebar-header">
+              <h3>Get in Touch</h3>
+              <p>We're here to help you find your perfect neighborhood</p>
+            </div>
+
+            <div class="contact-info-list">
+              <div class="contact-info-item">
+                <div class="info-icon">📧</div>
+                <div class="info-content">
+                  <h4>Email Support</h4>
+                  <p class="info-detail">support@neighborfit.com</p>
+                  <p class="info-subtitle">Get help within 24 hours</p>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <div class="info-icon">📞</div>
+                <div class="info-content">
+                  <h4>Phone Support</h4>
+                  <p class="info-detail">+1 (555) 123-4567</p>
+                  <p class="info-subtitle">Mon-Fri 9AM-6PM EST</p>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <div class="info-icon">💬</div>
+                <div class="info-content">
+                  <h4>Live Chat</h4>
+                  <p class="info-detail">Available 24/7</p>
+                  <p class="info-subtitle">Instant responses</p>
+                </div>
+              </div>
+
+              <div class="contact-info-item">
+                <div class="info-icon">📍</div>
+                <div class="info-content">
+                  <h4>Office Location</h4>
+                  <p class="info-detail">
+                    123 Tech Park, Sector 18<br />Gurgaon, Haryana 122015
+                  </p>
+                  <p class="info-subtitle">Visit us anytime</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/modal.js' %}"></script>
+    <script src="{% static 'js/contact.js' %}"></script>
+  </body>
+</html>
