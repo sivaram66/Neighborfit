@@ -39,7 +39,6 @@
       </div>
     </nav>
 
-    <!-- Quick Search Section -->
     <section class="quick-search-section">
       <div class="container">
         <div class="search-header">
@@ -111,7 +110,7 @@
       </div>
     </section>
 
-    <!-- Preferences Form -->
+
     <form class="preferences-form" id="preferences-form" method="post" action="{% url 'preferences' %}">
       <div class="container">
         <div class="preferences-header">
@@ -213,9 +212,7 @@
                 </div>
               </div>
 
-              <!-- Right Column -->
               <div class="form-column">
-                <!-- Property Specifications -->
                 <div class="form-section">
                   <h3>🏡 Property Details</h3>
                   <div class="form-group">
@@ -228,7 +225,6 @@
                   </div>
                 </div>
 
-                <!-- Essential Amenities -->
                 <div class="form-section">
                   <h3>✨ Essential Amenities</h3>
                   <div class="amenities-grid">
@@ -368,8 +364,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <script src="{% static 'js/preferences.js' %}"></script> -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         function setupCityArea(cityId, areaId) {
@@ -396,7 +390,6 @@
           }
         }
 
-        // Setup for both dropdown pairs
         setupCityArea("quick-city", "quick-area");
         setupCityArea("form-city", "form-area");
       });

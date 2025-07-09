@@ -244,9 +244,6 @@
             <a href="{% url 'contact' %}" class="nav-link active">Contact</a>
           </div>
           <div class="nav-auth">
-            <!-- <button class="auth-btn" id="auth-btn">Sign In / Sign Up</button> -->
-            <!-- <a href="{% url 'login' %}">Sign In</a>
-            <a href="{% url 'signup' %}">Sign Up</a> -->
             <a href="{% url 'login' %}" class="auth-btn">Sign In</a>
           </div>
           <div class="hamburger" id="hamburger">
@@ -676,10 +673,8 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Right Column -->
             <div class="space-y-6">
-                <!-- Enhanced Price Details Card -->
+
                 <div class="price-card">
                     <div class="price-header">
                         <div class="price-main">
@@ -701,7 +696,6 @@
                     </div>
                 </div>
                 
-                <!-- Enhanced Booking Card -->
                 <div class="booking-card">
                     <h3 class="booking-title">Property Details</h3>
                     <div class="booking-grid">
@@ -808,7 +802,6 @@
                 
 
 
-                <!-- Enhanced Similar Properties Card -->
                 {% if similar_properties %}
                 <div class="similar-card">
                     <h3 class="similar-title">Similar Properties</h3>
@@ -856,27 +849,25 @@
         <div class="loading-spinner"></div>
     </div>
 
-    <!-- JavaScript -->
+
     <script>
-        // Tab functionality
+
         document.addEventListener("DOMContentLoaded", function() {
             const tabButtons = document.querySelectorAll('.neighborhood-tab');
             const tabContents = document.querySelectorAll('.tab-content');
             
             tabButtons.forEach(btn => {
                 btn.addEventListener('click', function() {
-                    // Remove active from all buttons and contents
+
                     tabButtons.forEach(b => b.classList.remove('active'));
                     tabContents.forEach(c => c.classList.remove('active'));
-                    
-                    // Add active to clicked button and corresponding content
+
                     btn.classList.add('active');
                     document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
                 });
             });
         });
 
-        // Toggle section functionality
         function toggleSection(sectionId) {
             const header = event.currentTarget;
             const list = document.getElementById(sectionId);
@@ -885,7 +876,6 @@
             list.classList.toggle('expanded');
         }
 
-        // Get directions functionality
         function getDirections() {
             const destination = document.getElementById('direction-input').value;
             const propertyLocation = "{{ house.address }}, {{ house.city.name }}";
@@ -898,14 +888,13 @@
             }
         }
 
-        // Get directions to specific place
+
         function getDirectionsToPlace(placeName, propertyMapLink) {
             const propertyLocation = "{{ house.address }}, {{ house.city.name }}";
             const directionsUrl = `https://www.google.com/maps/dir/${encodeURIComponent(propertyLocation)}/${encodeURIComponent(placeName)}`;
             window.open(directionsUrl, '_blank');
         }
 
-        // Location button functionality
         document.addEventListener('click', function(event) {
             let btn = event.target.closest('.location-btn');
             if (btn) {
@@ -918,7 +907,6 @@
             }
         });
 
-        // Loading overlay
         document.addEventListener("DOMContentLoaded", function() {
             var overlay = document.getElementById("loading-overlay");
             if (overlay) {

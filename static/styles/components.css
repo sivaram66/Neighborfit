@@ -376,7 +376,6 @@
     }
 }
 
-/* Card fade-in animation */
 .pg-card {
     opacity: 0;
     transform: translateY(40px);
