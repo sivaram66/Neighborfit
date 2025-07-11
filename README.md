@@ -159,4 +159,4 @@ neighborfit/
 
 NeighborFit is built with Django, Neon.tech, Amazon S3, and a focus on modern, user-centric real estate search.
 
-**For questions or contributions, please open an issue or contact the NeighborFit team!**
+
