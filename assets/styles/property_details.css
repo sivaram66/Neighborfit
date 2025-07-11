@@ -1,6 +1,4 @@
-/* ===================================
-   PROPERTY DETAILS PAGE STYLES
-   =================================== */
+
 
    .font-inter {
     font-family: var(--font-primary);
@@ -10,7 +8,7 @@
     background-color: var(--gray-50);
   }
   
-  /* Breadcrumb Navigation */
+
   .breadcrumb-nav {
     font-size: var(--text-sm);
     color: var(--gray-500);
@@ -27,7 +25,7 @@
     color: var(--primary-dark);
   }
   
-  /* Property Header */
+
   .property-header {
     margin-bottom: var(--space-8);
   }
@@ -46,7 +44,7 @@
     font-size: var(--text-lg);
   }
   
-  /* Gallery Container */
+
   .gallery-container {
     background: var(--white);
     border-radius: var(--radius-2xl);
@@ -93,7 +91,7 @@
     box-shadow: var(--shadow-md);
   }
   
-  /* Gallery Controls */
+
   .gallery-controls {
     display: flex;
     justify-content: space-between;
@@ -148,7 +146,7 @@
     color: var(--white);
   }
   
-  /* Details Cards */
+
   .details-card {
     background: var(--white);
     border-radius: var(--radius-2xl);
@@ -174,7 +172,7 @@
     gap: var(--space-3);
   }
   
-  /* Details Grid */
+
   .details-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -205,8 +203,10 @@
     font-weight: 500;
     color: var(--gray-700);
   }
+
+
   
-  /* Description */
+
   .description-content {
     position: relative;
   }
@@ -229,10 +229,11 @@
   
   .read-more-btn:hover {
     color: var(--primary-dark);
+
     text-decoration: underline;
   }
   
-  /* Amenities Grid */
+
   .amenities-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -265,7 +266,8 @@
     font-size: var(--text-sm);
   }
   
-  /* Neighborhood Tabs */
+
+
   .neighborhood-tabs {
     display: flex;
     border-bottom: 2px solid var(--gray-200);
@@ -300,7 +302,7 @@
     display: block;
   }
   
-  /* Places Section */
+
   .places-section {
     margin-bottom: var(--space-6);
   }
@@ -382,7 +384,8 @@
     color: var(--gray-500);
   }
   
-  /* Price Card */
+
+
   .price-card {
     background: var(--white);
     border-radius: var(--radius-2xl);
@@ -456,7 +459,7 @@
     color: var(--gray-800);
   }
   
-  /* Booking Card */
+
   .booking-card {
     background: var(--white);
     border-radius: var(--radius-2xl);
@@ -510,7 +513,7 @@
     color: var(--gray-800);
   }
   
-  /* Action Buttons */
+
   .action-buttons {
     display: flex;
     flex-direction: column;
@@ -553,7 +556,7 @@
     color: var(--white);
   }
   
-  /* Similar Properties */
+
   .similar-card {
     background: var(--white);
     border-radius: var(--radius-2xl);
@@ -687,7 +690,7 @@
     border-color: var(--primary-color);
   }
   
-  /* Loading Overlay */
+
   .loading-overlay {
     position: fixed;
     top: 0;
@@ -710,7 +713,7 @@
     animation: spin 1s linear infinite;
   }
   
-  /* Responsive Design */
+
   @media (max-width: 1024px) {
     .property-title {
       font-size: var(--text-3xl);
@@ -803,7 +806,6 @@
     }
   }
   
-  /* Animation */
   @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -829,6 +831,7 @@
   .details-card:nth-child(3) {
     animation-delay: 0.3s;
   }
+
   .details-card:nth-child(4) {
     animation-delay: 0.4s;
   }

@@ -4,7 +4,7 @@
 {% block title %}Find Your Match - NeighborFit{% endblock %}
 
 {% block content %}
-<!-- Navigation -->
+
 <nav class="navbar">
     <div class="nav-container">
         <div class="nav-logo">
@@ -27,7 +27,7 @@
     </div>
 </nav>
 
-<!-- Quick Search Section -->
+
 <section class="quick-search-section">
     <div class="container">
         <div class="search-header">
@@ -100,7 +100,7 @@
     </div>
 </section>
 
-<!-- Preferences Form -->
+
 <section class="preferences-form">
     <div class="container">
         <div class="preferences-header">
@@ -115,18 +115,22 @@
                 
                 <div class="form-grid">
                     <div class="form-column">
-                        <!-- Property Type -->
+
                         <div class="form-section">
                             <h3>🏠 Property Type</h3>
-                            <div class="housing-options">
-                                {% for value, label in house.HOUSE_TYPE_CHOICES %}
-                                <input type="radio" id="house_type_{{ forloop.counter }}" name="house_type" value="{{ value }}" />
-                                <label for="house_type_{{ forloop.counter }}" class="option-chip">{{ label }}</label>
-                                {% endfor %}
-                            </div>
+                            <div class="property-type-options">
+                            <label class="property-type-radio">
+                                <input type="radio" name="property-type" value="pg" checked />
+                                <span>PG/Hostel</span>
+                            </label>
+                            <label class="property-type-radio">
+                                <input type="radio" name="property-type" value="flat" />
+                                <span>Flat</span>
+                            </label>
+                        </div>
                         </div>
                         
-                        <!-- Location -->
+
                         <div class="form-section">
                             <h3>📍 Location</h3>
                             <div class="form-row">
@@ -148,7 +152,7 @@
                             </div>
                         </div>
                         
-                        <!-- Budget -->
+
                         <div class="form-section">
                             <h3>💰 Budget</h3>
                             <div class="form-group">
@@ -166,7 +170,6 @@
                             </div>
                         </div>
                         
-                        <!-- Priorities -->
                         <div class="form-section">
                             <h3>🌟 Priorities</h3>
                             <div class="form-group">
@@ -191,7 +194,7 @@
                     </div>
                     
                     <div class="form-column">
-                        <!-- Property Details -->
+
                         <div class="form-section">
                             <h3>🏡 Property Details</h3>
                             <div class="form-group">
@@ -204,7 +207,7 @@
                             </div>
                         </div>
                         
-                        <!-- Essential Amenities -->
+
                         <div class="form-section">
                             <h3>✨ Essential Amenities</h3>
                             <div class="amenities-grid">
@@ -265,9 +268,7 @@
 
 {% block extra_js %}
 <script>
-// Form enhancement JavaScript
 document.addEventListener('DOMContentLoaded', function() {
-    // City-Area dropdown functionality
     function setupCityArea(cityId, areaId) {
         const citySelect = document.getElementById(cityId);
         const areaSelect = document.getElementById(areaId);
@@ -295,11 +296,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Setup both quick search and form dropdowns
     setupCityArea("quick-city", "quick-area");
     setupCityArea("form-city", "form-area");
 
-    // Mobile navigation toggle
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');
 
@@ -310,7 +309,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Form submission loading state
     const form = document.querySelector('.preferences-container form');
     const submitBtn = document.getElementById('submit-btn');
     const btnText = submitBtn.querySelector('.btn-text');
@@ -324,7 +322,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Add ripple effect to chips
     const chips = document.querySelectorAll('.option-chip, .amenity-chip');
     chips.forEach(chip => {
         chip.addEventListener('click', function(e) {
@@ -349,7 +346,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <script>
-  // Replace these with the actual values of your supported cities
+
   const supportedCities = [
     "Bengaluru",
     "Koramangala",

@@ -1,13 +1,10 @@
-/* ===================================
-   RESULTS PAGE STYLES
-   =================================== */
+
 
    .results-page {
     background: var(--gray-50);
     min-height: 100vh;
   }
-  
-  /* Results Header */
+
   .results-header {
     background: var(--white);
     padding: 120px 0 var(--space-8);
@@ -93,7 +90,7 @@
     background: var(--secondary-dark);
   }
   
-  /* Results Section */
+
   .results-section {
     padding: var(--space-12) 0;
   }
@@ -104,7 +101,7 @@
     gap: var(--space-8);
   }
   
-  /* Property Cards */
+
   .property-card {
     background: var(--white);
     border-radius: var(--radius-2xl);
@@ -176,7 +173,7 @@
     font-size: var(--text-base);
   }
   
-  /* Property Details */
+
   .property-details {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -203,7 +200,7 @@
     font-weight: 600;
   }
   
-  /* Property Amenities */
+
   .property-amenities {
     margin-bottom: var(--space-6);
   }
@@ -241,7 +238,7 @@
     color: var(--white);
   }
   
-  /* Property Actions */
+
   .property-actions {
     display: flex;
     gap: var(--space-3);
@@ -281,7 +278,7 @@
     color: var(--white);
   }
   
-  /* No Results */
+
   .no-results {
     text-align: center;
     padding: var(--space-20);
@@ -299,7 +296,7 @@
     font-size: var(--text-lg);
   }
   
-  /* Responsive Design */
+
   @media (max-width: 1024px) {
     .results-grid {
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -364,7 +361,7 @@
     }
   }
   
-  /* Loading Animation */
+
   @keyframes fadeInUp {
     from {
       opacity: 0;

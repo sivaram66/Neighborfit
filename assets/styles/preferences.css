@@ -1,8 +1,4 @@
-/* ===================================
-   PREFERENCES PAGE STYLES
-   =================================== */
 
-/* Quick Search Section */
 .quick-search-section {
   padding: 120px 0 var(--space-16);
   background: linear-gradient(135deg, var(--white) 0%, var(--gray-50) 100%);
@@ -36,7 +32,7 @@
   margin: 0 auto;
 }
 
-/* Quick Search Bar */
+
 .quick-search-bar {
   background: var(--white);
   border-radius: var(--radius-2xl);
@@ -54,6 +50,7 @@
   gap: var(--space-4);
   margin-bottom: var(--space-6);
 }
+
 
 .search-dropdown-box {
   position: relative;
@@ -87,6 +84,7 @@
   appearance: none;
   cursor: pointer;
 }
+
 
 .property-type-box {
   flex-direction: column;
@@ -161,7 +159,7 @@
   z-index: -1;
 }
 
-/* Preferences Form */
+
 .preferences-form {
   background: var(--white);
   padding: var(--space-16) 0;
@@ -193,6 +191,7 @@
   padding: 0 var(--space-4);
 }
 
+
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -205,7 +204,7 @@
   gap: var(--space-10);
 }
 
-/* Form Sections */
+
 .form-section {
   background: var(--white);
   border: 1px solid var(--gray-200);
@@ -266,7 +265,8 @@
   outline: none;
 }
 
-/* Housing Options */
+
+
 .housing-options {
   display: flex;
   flex-wrap: wrap;
@@ -301,7 +301,7 @@ input[type="radio"] {
   display: none;
 }
 
-/* Amenities Grid */
+
 .amenities-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -337,7 +337,7 @@ input[type="checkbox"] {
   display: none;
 }
 
-/* Form Submit */
+
 .form-submit {
   text-align: center;
   margin-top: var(--space-12);
@@ -378,82 +378,63 @@ input[type="checkbox"] {
   animation: spin 1s linear infinite;
 }
 
-.btn-text {
-  /* No styles defined yet, but class exists in HTML */
-}
 
-.progress-container {
-  /* No styles defined yet, but class exists in HTML */
-}
 
-/* Responsive Design */
+
 @media (max-width: 1024px) {
   .search-input-group {
     grid-template-columns: 1fr 1fr;
     gap: var(--space-3);
   }
-
   .form-grid {
     grid-template-columns: 1fr;
     gap: var(--space-8);
   }
 }
-
 @media (max-width: 768px) {
   .search-tagline {
     font-size: var(--text-3xl);
   }
-
   .search-subtitle {
     font-size: var(--text-lg);
   }
-
   .search-input-group {
     grid-template-columns: 1fr;
   }
-
   .quick-search-bar {
     padding: var(--space-4);
   }
-
   .preferences-header h2 {
     font-size: var(--text-3xl);
   }
-
   .form-section {
     padding: var(--space-6);
   }
-
   .form-row {
     grid-template-columns: 1fr;
   }
-
   .amenities-grid {
     grid-template-columns: 1fr;
   }
-
   .find-matches-btn {
     padding: var(--space-4) var(--space-8);
     font-size: var(--text-lg);
   }
 }
-
 @media (max-width: 480px) {
   .search-tagline {
     font-size: var(--text-2xl);
   }
-
   .housing-options {
     flex-direction: column;
   }
-
   .option-chip,
   .amenity-chip {
     justify-content: center;
   }
 }
 
-/* Animation */
+/* Animation for Form Section Entrance */
 @keyframes slideInUp {
   from {
     opacity: 0;
@@ -464,12 +445,10 @@ input[type="checkbox"] {
     transform: translateY(0);
   }
 }
-
 .form-section {
   animation: slideInUp 0.6s ease-out;
   animation-fill-mode: both;
 }
-
 .form-section:nth-child(1) {
   animation-delay: 0.1s;
 }

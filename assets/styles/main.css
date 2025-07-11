@@ -1,8 +1,4 @@
-/* ===================================
-   MAIN LAYOUT & NAVIGATION
-   =================================== */
 
-/* Navigation Styles */
 .navbar {
   position: fixed;
   top: 0;
@@ -85,7 +81,7 @@
   box-shadow: var(--shadow-md);
 }
 
-/* Mobile Navigation */
+
 .hamburger {
   display: none;
   flex-direction: column;
@@ -102,7 +98,7 @@
   border-radius: 2px;
 }
 
-/* Hero Section */
+
 .hero {
   padding: 120px 0 var(--space-20);
   background: linear-gradient(135deg, var(--gray-50) 0%, var(--white) 100%);
@@ -174,7 +170,7 @@
   box-shadow: var(--shadow-xl);
 }
 
-/* Features Section */
+
 .features {
   padding: var(--space-20) 0;
   background: var(--white);
@@ -230,7 +226,7 @@
   margin: 0;
 }
 
-/* Page Hero */
+
 .page-hero {
   padding: 120px 0 var(--space-16);
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -251,7 +247,7 @@
   margin: 0 auto;
 }
 
-/* Footer */
+
 .footer {
   background: var(--gray-800);
   color: var(--gray-300);
@@ -259,7 +255,7 @@
   margin-top: auto;
 }
 
-/* Responsive Design */
+
 @media (max-width: 1024px) {
   .hero-container {
     grid-template-columns: 1fr;

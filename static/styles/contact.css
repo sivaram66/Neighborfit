@@ -1,8 +1,5 @@
-/* ===================================
-   CONTACT PAGE STYLES
-   =================================== */
 
-/* Contact Hero Section */
+
 .contact-hero {
     position: relative;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);

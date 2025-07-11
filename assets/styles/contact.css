@@ -1,8 +1,4 @@
-/* ===================================
-   CONTACT PAGE STYLES
-   =================================== */
 
-/* Contact Hero Section */
 .contact-hero {
     position: relative;
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
@@ -50,7 +46,6 @@
     line-height: 1.6;
   }
   
-  /* Contact Form Section */
   .contact-form-section {
     padding: var(--space-20) 0;
     background: var(--gray-50);
@@ -64,7 +59,6 @@
     margin: 0 auto;
   }
   
-  /* Enhanced Contact Form */
   .form-container {
     background: var(--white);
     border-radius: var(--radius-2xl);
@@ -166,7 +160,7 @@
     min-height: 120px;
   }
   
-  /* Submit Button */
+
   .submit-btn {
     width: 100%;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -199,7 +193,7 @@
     transform: translateX(4px);
   }
   
-  /* Contact Info Sidebar */
+
   .contact-info-sidebar {
     background: var(--white);
     border-radius: var(--radius-2xl);
@@ -273,7 +267,7 @@
     margin: 0;
   }
   
-  /* Responsive Design */
+
   @media (max-width: 1024px) {
     .contact-layout {
       grid-template-columns: 1fr;
@@ -334,7 +328,7 @@
     }
   }
   
-  /* Animation */
+
   @keyframes slideInUp {
     from {
       opacity: 0;

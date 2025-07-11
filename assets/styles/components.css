@@ -1,8 +1,4 @@
-/* ===================================
-   REUSABLE COMPONENTS
-   =================================== */
 
-/* Buttons */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -71,7 +67,6 @@
     font-size: var(--text-sm);
   }
   
-  /* Cards */
   .card {
     background: var(--white);
     border-radius: var(--radius-xl);
@@ -100,7 +95,6 @@
     background: var(--gray-50);
   }
   
-  /* Form Elements */
   .form-group {
     margin-bottom: var(--space-6);
   }
@@ -147,7 +141,6 @@
     padding-right: var(--space-10);
   }
   
-  /* Checkbox and Radio */
   .form-checkbox,
   .form-radio {
     position: relative;
@@ -164,7 +157,7 @@
     margin: 0;
   }
   
-  /* Messages */
+
   .message {
     padding: var(--space-4);
     border-radius: var(--radius-lg);
@@ -196,7 +189,6 @@
     border: 1px solid #93c5fd;
   }
   
-  /* Badges */
   .badge {
     display: inline-flex;
     align-items: center;
@@ -228,7 +220,6 @@
     color: var(--white);
   }
   
-  /* Loading Spinner */
   .spinner {
     width: 20px;
     height: 20px;
@@ -247,7 +238,7 @@
     }
   }
   
-  /* Tooltips */
+
   .tooltip {
     position: relative;
     display: inline-block;
@@ -268,7 +259,6 @@
     z-index: 1000;
   }
   
-  /* Responsive Utilities */
   @media (max-width: 768px) {
     .btn {
       padding: var(--space-3) var(--space-5);

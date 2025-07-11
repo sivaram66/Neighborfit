@@ -1,6 +1,4 @@
-/* ===================================
-   LOGIN PAGE STYLES
-   =================================== */
+
 
    .login-container {
     display: grid;
@@ -9,7 +7,7 @@
     background: var(--gray-50);
   }
   
-  /* Brand Section */
+
   .login-brand {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     color: var(--white);
@@ -88,7 +86,7 @@
     line-height: 1.5;
   }
   
-  /* Form Section */
+
   .login-form-section {
     display: flex;
     align-items: center;
@@ -139,7 +137,7 @@
     margin: 0;
   }
   
-  /* Form Styles */
+
   .login-form {
     display: flex;
     flex-direction: column;
@@ -174,7 +172,7 @@
     outline: none;
   }
   
-  /* Password Input */
+
   .password-input {
     position: relative;
   }
@@ -197,7 +195,7 @@
     color: var(--primary-color);
   }
   
-  /* Form Options */
+
   .form-options {
     display: flex;
     justify-content: space-between;
@@ -233,7 +231,7 @@
     text-decoration: underline;
   }
   
-  /* Submit Button */
+
   .submit-btn {
     width: 100%;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -258,7 +256,7 @@
     transform: translateY(0);
   }
   
-  /* Form Footer */
+
   .form-footer {
     text-align: center;
     margin-top: var(--space-8);
@@ -281,7 +279,7 @@
     text-decoration: underline;
   }
   
-  /* Message Container */
+
   .message-container {
     margin-bottom: var(--space-6);
   }
@@ -305,7 +303,7 @@
     border: 1px solid #fca5a5;
   }
   
-  /* Responsive Design */
+
   @media (max-width: 1024px) {
     .login-container {
       grid-template-columns: 1fr;
@@ -402,7 +400,7 @@
     }
   }
   
-  /* Animation */
+
   @keyframes slideInRight {
     from {
       opacity: 0;
