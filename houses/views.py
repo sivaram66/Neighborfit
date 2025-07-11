@@ -6,11 +6,22 @@ from django.db.models import Q
 
 
 def home(request):
-    return render(request, 'index.html')
+    user_name = None
+    if request.user.is_authenticated:
+        user_name = request.user.name  
+
+    context = {
+        'user_name': user_name,
+    }
+    return render(request, 'index.html', context)
 
 
 def about(request):
     return render(request, 'about.html')
+
+
+def dashboard(request):
+    return render(request, 'dashboard.html')
 
 
 def preferences(request):

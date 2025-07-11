@@ -1,140 +1,158 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About - NeighborFit</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="{% static 'styles/main.css' %}" />
-    <link rel="stylesheet" href="{% static 'styles/components.css' %}" />
-  </head>
-  <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-      <div class="nav-container">
-        <div class="nav-logo">
-          <h2>NeighborFit</h2>
-        </div>
-        <div class="nav-menu" id="nav-menu">
-          <a href="{% url 'home' %}" class="nav-link">Home</a>
-          <a href="{% url 'about' %}" class="nav-link active">About</a>
-          <a href="{% url 'preferences' %}" class="nav-link">Preferences</a>
-          <a href="{% url 'contact' %}" class="nav-link">Contact</a>
-        </div>
-        <div class="nav-auth">
 
-          <a href="{% url 'login' %}" class="auth-btn">Sign In</a>
-        </div>
-        <div class="hamburger" id="hamburger">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </div>
-      </div>
-    </nav>
+{% block title %}About Us - NeighborFit{% endblock %}
 
-    <!-- About Hero -->
-    <section class="page-hero">
-      <div class="container">
+{% block content %}
+<!-- Page Hero -->
+<section class="page-hero">
+    <div class="container">
         <h1>About NeighborFit</h1>
-        <p>
-          Connecting people with their perfect neighborhoods through smart
-          technology and local insights.
-        </p>
-      </div>
-    </section>
+        <p>We're on a mission to help people find their perfect neighborhood match through data-driven insights and personalized recommendations.</p>
+    </div>
+</section>
 
-    <!-- About Content -->
-    <section class="about-content">
-      <div class="container">
+<!-- About Content -->
+<section class="about-content">
+    <div class="container">
         <div class="content-grid">
-          <div class="content-text">
-            <h2>Our Mission</h2>
-            <p>
-              At NeighborFit, we believe that finding the right home is about
-              more than just four walls and a roof. It's about finding a
-              community that matches your lifestyle, values, and aspirations.
-            </p>
-            <p>
-              We've created an intelligent platform that goes beyond traditional
-              property searches by considering your unique preferences for
-              amenities, commute requirements, social environment, and budget
-              constraints.
-            </p>
-          </div>
-          <div class="content-image">
-            <img
-              src="https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg?auto=compress&cs=tinysrgb&w=800"
-              alt="Community"
-              class="about-img"
-            />
-          </div>
+            <div class="content-text">
+                <h2>Our Story</h2>
+                <p>
+                    NeighborFit was born from a simple observation: finding the right neighborhood 
+                    is one of life's most important decisions, yet most people rely on limited 
+                    information and gut feelings.
+                </p>
+                <p>
+                    We believe everyone deserves to live in a community that truly fits their 
+                    lifestyle, values, and aspirations. That's why we created a platform that 
+                    combines comprehensive data analysis with personalized matching algorithms.
+                </p>
+                <p>
+                    Since our founding, we've helped thousands of families, young professionals, 
+                    and retirees discover neighborhoods they love and call home.
+                </p>
+            </div>
+            <div class="content-image">
+                <img src="/placeholder.svg?height=400&width=500" alt="Our team" class="about-img">
+            </div>
         </div>
-      </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Values Section -->
-    <section class="values-section">
-      <div class="container">
+<!-- Values Section -->
+<section class="values-section">
+    <div class="container">
         <h2 class="section-title">Our Values</h2>
         <div class="values-grid">
-          <div class="value-card">
-            <h3>Trust & Transparency</h3>
-            <p>
-              We provide honest, verified information about every property and
-              neighborhood to help you make informed decisions.
-            </p>
-          </div>
-          <div class="value-card">
-            <h3>Personalization</h3>
-            <p>
-              Every person is unique, and so are their housing needs. Our
-              platform adapts to your specific lifestyle requirements.
-            </p>
-          </div>
-          <div class="value-card">
-            <h3>Community Focus</h3>
-            <p>
-              We understand that a home is part of a larger community, and we
-              help you find where you truly belong.
-            </p>
-          </div>
+            <div class="value-card">
+                <h3>🎯 Precision</h3>
+                <p>We use advanced algorithms and comprehensive data to provide accurate, personalized neighborhood recommendations.</p>
+            </div>
+            <div class="value-card">
+                <h3>🤝 Trust</h3>
+                <p>We're committed to transparency, privacy, and providing honest insights to help you make informed decisions.</p>
+            </div>
+            <div class="value-card">
+                <h3>🌟 Excellence</h3>
+                <p>We continuously improve our platform and services to deliver the best possible experience for our users.</p>
+            </div>
+            <div class="value-card">
+                <h3>🏘️ Community</h3>
+                <p>We believe strong communities make better neighborhoods, and we're here to help you find yours.</p>
+            </div>
         </div>
-      </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Team Section -->
-    <section class="team-section">
-      <div class="container">
-        <h2 class="section-title">Our Story</h2>
+<!-- Team Section -->
+<section class="team-section">
+    <div class="container">
+        <h2 class="section-title">Our Mission</h2>
         <div class="story-content">
-          <p>
-            NeighborFit was born from the frustration of traditional house
-            hunting. Our founders experienced the challenge of finding a home
-            that wasn't just affordable and well-located, but also aligned with
-            their lifestyle and community preferences.
-          </p>
-          <p>
-            After countless hours of research and failed viewings, they realized
-            that the problem wasn't just about finding any house – it was about
-            finding the right neighborhood ecosystem that would support their
-            daily routines, social life, and long-term goals.
-          </p>
-          <p>
-            Today, NeighborFit serves thousands of users across major cities,
-            helping them discover not just houses, but homes within communities
-            where they can thrive.
-          </p>
+            <p>
+                At NeighborFit, we envision a world where everyone can easily find and 
+                connect with communities that enhance their quality of life. We're building 
+                the future of neighborhood discovery through technology, data, and human insight.
+            </p>
+            <p>
+                Our platform doesn't just show you houses – it reveals the heart and soul 
+                of neighborhoods, helping you understand what it would really be like to 
+                live there before you make one of life's biggest decisions.
+            </p>
         </div>
-      </div>
-    </section>
-    <script src="{% static 'js/main.js' %}"></script>
-    <script src="{% static 'js/modal.js' %}"></script>
-  </body>
-</html>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">10,000+</div>
+                <div class="stat-label">Happy Users</div>
+                <div class="stat-description">Families who found their perfect neighborhood</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Neighborhoods</div>
+                <div class="stat-description">Comprehensive coverage across major cities</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">95%</div>
+                <div class="stat-label">Success Rate</div>
+                <div class="stat-description">Users satisfied with their matches</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Support</div>
+                <div class="stat-description">Always here to help you find home</div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.stats-section {
+    background: var(--primary-blue-bg);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-8);
+}
+
+.stat-card {
+    text-align: center;
+    background: white;
+    padding: var(--space-8);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--gray-200);
+}
+
+.stat-number {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    color: var(--primary-blue);
+    display: block;
+    margin-bottom: var(--space-2);
+}
+
+.stat-label {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--gray-900);
+    display: block;
+    margin-bottom: var(--space-2);
+}
+
+.stat-description {
+    color: var(--gray-600);
+    font-size: var(--font-size-sm);
+}
+</style>
+{% endblock %}

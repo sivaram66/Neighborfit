@@ -1,0 +1,407 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - NeighborFit{% endblock %}
+
+{% block content %}
+<div class="dashboard-layout">
+    <aside class="sidebar">
+        <nav class="sidebar-nav">
+            <a href="{% url 'dashboard' %}" class="sidebar-link active">
+                <span>📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="{% url 'profile' %}" class="sidebar-link">
+                <span>👤</span>
+                <span>Profile</span>
+            </a>
+            <a href="{% url 'saved_searches' %}" class="sidebar-link">
+                <span>🔍</span>
+                <span>Saved Searches</span>
+            </a>
+            <a href="{% url 'favorites' %}" class="sidebar-link">
+                <span>❤️</span>
+                <span>Favorites</span>
+            </a>
+            <a href="{% url 'preferences' %}" class="sidebar-link">
+                <span>⚙️</span>
+                <span>Preferences</span>
+            </a>
+            <a href="{% url 'notifications' %}" class="sidebar-link">
+                <span>🔔</span>
+                <span>Notifications</span>
+            </a>
+        </nav>
+    </aside>
+    
+    <main class="main-content">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Welcome back, {{ user.first_name|default:user.username }}!</h1>
+            <p class="dashboard-subtitle">Here's what's happening with your neighborhood search</p>
+        </div>
+        
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Saved Properties</span>
+                    <span class="stat-icon">🏠</span>
+                </div>
+                <div class="stat-value">{{ saved_properties_count }}</div>
+                <div class="stat-change positive">+3 this week</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Searches</span>
+                    <span class="stat-icon">🔍</span>
+                </div>
+                <div class="stat-value">{{ searches_count }}</div>
+                <div class="stat-change">{{ recent_searches }} recent</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Match Score</span>
+                    <span class="stat-icon">🎯</span>
+                </div>
+                <div class="stat-value">{{ match_score }}%</div>
+                <div class="stat-change positive">Excellent match</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Notifications</span>
+                    <span class="stat-icon">🔔</span>
+                </div>
+                <div class="stat-value">{{ notifications_count }}</div>
+                <div class="stat-change">{{ unread_notifications }} unread</div>
+            </div>
+        </div>
+        
+        <div class="dashboard-grid">
+            <div class="dashboard-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Recent Searches</h3>
+                        <a href="{% url 'saved_searches' %}" class="btn btn-sm btn-outline">View All</a>
+                    </div>
+                    <div class="card-body">
+                        {% if recent_searches_list %}
+                            <div class="search-list">
+                                {% for search in recent_searches_list %}
+                                <div class="search-item">
+                                    <div class="search-info">
+                                        <h4>{{ search.city }}</h4>
+                                        <p>{{ search.criteria_summary }}</p>
+                                        <small>{{ search.created_at|timesince }} ago</small>
+                                    </div>
+                                    <div class="search-actions">
+                                        <a href="{% url 'results' %}?search_id={{ search.id }}" class="btn btn-sm btn-primary">
+                                            View Results
+                                        </a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="empty-state">
+                                <p>No recent searches</p>
+                                <a href="{% url 'preferences' %}" class="btn btn-primary">Start Searching</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Favorite Properties</h3>
+                        <a href="{% url 'favorites' %}" class="btn btn-sm btn-outline">View All</a>
+                    </div>
+                    <div class="card-body">
+                        {% if favorite_properties %}
+                            <div class="property-list">
+                                {% for property in favorite_properties %}
+                                <div class="property-item">
+                                    <div class="property-image-sm">
+                                        <img src="/placeholder.svg?height=60&width=80" alt="{{ property.name }}">
+                                    </div>
+                                    <div class="property-info">
+                                        <h4>{{ property.name }}</h4>
+                                        <p>{{ property.neighborhood }}, {{ property.city }}</p>
+                                        <span class="property-price">${{ property.rent }}/mo</span>
+                                    </div>
+                                    <div class="property-actions">
+                                        <a href="{% url 'property_detail' property.id %}" class="btn btn-sm btn-primary">
+                                            View
+                                        </a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="empty-state">
+                                <p>No favorite properties yet</p>
+                                <a href="{% url 'preferences' %}" class="btn btn-primary">Find Properties</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-section">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Recommended for You</h3>
+                    <span class="badge badge-primary">New</span>
+                </div>
+                <div class="card-body">
+                    {% if recommended_properties %}
+                        <div class="recommendations-grid">
+                            {% for property in recommended_properties %}
+                            <div class="recommendation-card">
+                                <div class="recommendation-image">
+                                    <img src="/placeholder.svg?height=150&width=200" alt="{{ property.name }}">
+                                    <div class="match-score">{{ property.match_score }}% match</div>
+                                </div>
+                                <div class="recommendation-content">
+                                    <h4>{{ property.name }}</h4>
+                                    <p>{{ property.neighborhood }}, {{ property.city }}</p>
+                                    <div class="recommendation-details">
+                                        <span>${{ property.rent }}/mo</span>
+                                        <span>{{ property.bedrooms }} bed</span>
+                                        <span>{{ property.bathrooms }} bath</span>
+                                    </div>
+                                    <div class="recommendation-actions">
+                                        <a href="{% url 'property_detail' property.id %}" class="btn btn-sm btn-primary">
+                                            View Details
+                                        </a>
+                                        <!-- <button class="btn btn-sm btn-outline" onclick="saveProperty({{ property.id }})"> -->
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="empty-state">
+                            <p>Complete your preferences to get personalized recommendations</p>
+                            <a href="{% url 'preferences' %}" class="btn btn-primary">Update Preferences</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+}
+
+.dashboard-section {
+    margin-bottom: var(--space-6);
+}
+
+.search-list,
+.property-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.search-item,
+.property-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-fast);
+}
+
+.search-item:hover,
+.property-item:hover {
+    border-color: var(--primary-blue-lighter);
+    background: var(--primary-blue-bg);
+}
+
+.search-info,
+.property-info {
+    flex: 1;
+}
+
+.search-info h4,
+.property-info h4 {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    margin-bottom: var(--space-1);
+    color: var(--gray-900);
+}
+
+.search-info p,
+.property-info p {
+    font-size: var(--font-size-sm);
+    color: var(--gray-600);
+    margin-bottom: var(--space-1);
+}
+
+.property-price {
+    font-weight: 600;
+    color: var(--primary-blue);
+}
+
+.property-image-sm {
+    width: 80px;
+    height: 60px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.property-image-sm img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.recommendations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-6);
+}
+
+.recommendation-card {
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-fast);
+}
+
+.recommendation-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.recommendation-image {
+    position: relative;
+    height: 150px;
+}
+
+.recommendation-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.match-score {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+    background: var(--primary-blue);
+    color: white;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+}
+
+.recommendation-content {
+    padding: var(--space-4);
+}
+
+.recommendation-content h4 {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    margin-bottom: var(--space-1);
+    color: var(--gray-900);
+}
+
+.recommendation-content p {
+    font-size: var(--font-size-sm);
+    color: var(--gray-600);
+    margin-bottom: var(--space-3);
+}
+
+.recommendation-details {
+    display: flex;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    font-size: var(--font-size-sm);
+    color: var(--gray-600);
+}
+
+.recommendation-actions {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.empty-state {
+    text-align: center;
+    padding: var(--space-8);
+    color: var(--gray-600);
+}
+
+.empty-state p {
+    margin-bottom: var(--space-4);
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .recommendations-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .search-item,
+    .property-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .search-actions,
+    .property-actions {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function saveProperty(propertyId) {
+    // AJAX call to save property
+    fetch(`/api/save-property/${propertyId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            event.target.textContent = 'Saved!';
+            event.target.disabled = true;
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+</script>
+{% endblock %}

@@ -9,6 +9,7 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('get-areas/', views.get_areas, name='get_areas'),
     path('quicksearch/', views.quicksearch, name='quicksearch'),
+    path('dashboard/', views.dashboard, name='dashboard'),
     path('houses/<int:house_id>//',
          views.property_details, name='property_details'),
 ]

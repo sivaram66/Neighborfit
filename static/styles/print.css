@@ -1,0 +1,77 @@
+/* ===== PRINT STYLES ===== */
+@media print {
+    /* Hide non-essential elements */
+    .navbar,
+    .footer,
+    .sidebar,
+    .btn,
+    .modal-overlay,
+    .dropdown-menu,
+    .tooltip,
+    .hamburger,
+    .nav-auth,
+    .cta-button,
+    .submit-btn {
+      display: none !important;
+    }
+  
+    /* Reset backgrounds and colors for print */
+    * {
+      background: white !important;
+      color: black !important;
+      box-shadow: none !important;
+    }
+  
+    /* Ensure proper page breaks */
+    .card,
+    .property-card,
+    .feature-card {
+      page-break-inside: avoid;
+      border: 1px solid #ccc !important;
+      margin-bottom: 1rem;
+    }
+  
+    /* Adjust typography for print */
+    body {
+      font-size: 12pt;
+      line-height: 1.4;
+    }
+  
+    h1 {
+      font-size: 18pt;
+    }
+    h2 {
+      font-size: 16pt;
+    }
+    h3 {
+      font-size: 14pt;
+    }
+    h4 {
+      font-size: 12pt;
+    }
+  
+    /* Show URLs for links */
+    a[href]:after {
+      content: " (" attr(href) ")";
+      font-size: 10pt;
+      color: #666;
+    }
+  
+    /* Table adjustments */
+    .data-table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+  
+    .data-table th,
+    .data-table td {
+      border: 1px solid #ccc !important;
+      padding: 8px;
+    }
+  
+    /* Page margins */
+    @page {
+      margin: 1in;
+    }
+  }
+  
