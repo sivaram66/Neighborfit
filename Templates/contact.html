@@ -6,6 +6,8 @@
 {% block content %}
 <!-- Contact Hero -->
 <section class="contact-hero">
+    <div class="hero-background"></div>
+    <div class="hero-overlay"></div>
     <div class="container">
         <div class="hero-content">
             <h1 class="hero-title">Get in Touch</h1>
@@ -173,6 +175,71 @@
 
 {% block extra_css %}
 <style>
+.contact-hero {
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600&q=80');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.85), rgba(30, 58, 138, 0.9));
+    z-index: 2;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--space-8);
+}
+
+.hero-title {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    margin-bottom: var(--space-4);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle {
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    margin-bottom: var(--space-4);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    opacity: 0.95;
+}
+
+.hero-description {
+    font-size: var(--font-size-lg);
+    line-height: 1.6;
+    margin: 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    opacity: 0.9;
+}
+
 .social-section {
     margin-top: var(--space-8);
     padding-top: var(--space-6);
@@ -231,10 +298,30 @@
     color: var(--gray-900);
 }
 
+.form-container {
+    width: 100%;
+    max-width: 700px;  
+}
+
 .faq-item p {
     color: var(--gray-600);
     line-height: 1.6;
     margin: 0;
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: var(--font-size-3xl);
+    }
+    
+    .hero-subtitle {
+        font-size: var(--font-size-xl);
+    }
+    
+    .hero-description {
+        font-size: var(--font-size-base);
+        color: var(--gray-900);
+    }
 }
 </style>
 {% endblock %}

@@ -113,7 +113,7 @@
   
   .form-container {
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
   }
   
   .back-link {
@@ -468,7 +468,6 @@
   
   @media (max-width: 480px) {
     .brand-logo h1 {
-      font-size: var(--font-size-3xl);
     }
   
     .form-header h2 {

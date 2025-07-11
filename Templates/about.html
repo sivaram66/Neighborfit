@@ -6,9 +6,13 @@
 {% block content %}
 <!-- Page Hero -->
 <section class="page-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-background"></div>
     <div class="container">
-        <h1>About NeighborFit</h1>
-        <p>We're on a mission to help people find their perfect neighborhood match through data-driven insights and personalized recommendations.</p>
+        <div class="hero-content">
+            <h1>About NeighborFit</h1>
+            <p>We're on a mission to help people find their perfect neighborhood match through data-driven insights and personalized recommendations.</p>
+        </div>
     </div>
 </section>
 
@@ -34,7 +38,7 @@
                 </p>
             </div>
             <div class="content-image">
-                <img src="/placeholder.svg?height=400&width=500" alt="Our team" class="about-img">
+                <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&h=400&q=80" alt="Diverse team working together on neighborhood analysis" class="about-img">
             </div>
         </div>
     </div>
@@ -115,6 +119,59 @@
 
 {% block extra_css %}
 <style>
+.page-hero {
+    position: relative;
+    background: linear-gradient(135deg, var(--primary-blue-bg) 0%, white 100%);
+    padding: var(--space-24) 0 var(--space-16);
+    margin-top: 80px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600&q=80');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.1;
+    z-index: 1;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.8) 0%, rgba(59, 130, 246, 0.6) 100%);
+    z-index: 2;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+}
+
+.page-hero h1 {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    margin-bottom: var(--space-4);
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.page-hero p {
+    font-size: var(--font-size-xl);
+    color: rgba(255, 255, 255, 0.95);
+    max-width: 600px;
+    margin: 0 auto;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
 .stats-section {
     background: var(--primary-blue-bg);
 }
@@ -132,6 +189,12 @@
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow);
     border: 1px solid var(--gray-200);
+    transition: transform var(--transition-fast);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
 }
 
 .stat-number {
@@ -153,6 +216,20 @@
 .stat-description {
     color: var(--gray-600);
     font-size: var(--font-size-sm);
+}
+
+@media (max-width: 768px) {
+    .page-hero {
+        padding: var(--space-16) 0 var(--space-12);
+    }
+    
+    .page-hero h1 {
+        font-size: var(--font-size-3xl);
+    }
+    .hero-content {
+    margin: 0 auto;
+    max-width: 600px;
+}
 }
 </style>
 {% endblock %}

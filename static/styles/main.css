@@ -285,9 +285,7 @@ a:hover {
   align-items: center;
 }
 
-.hero-content {
-  max-width: 600px;
-}
+
 
 .hero-title {
   font-size: var(--font-size-5xl);
@@ -299,7 +297,7 @@ a:hover {
 
 .hero-subtitle {
   font-size: var(--font-size-xl);
-  color: var(--gray-600);
+  color: var(--gray-900);
   margin-bottom: var(--space-8);
   line-height: 1.6;
 }
